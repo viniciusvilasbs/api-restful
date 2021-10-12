@@ -19,7 +19,7 @@ async function get(req, res){
     res.send(products)
 }
 
-async function post (req, res){
+async function post(req, res){
      const {
          name,
          brand,
@@ -39,7 +39,7 @@ async function post (req, res){
      })
 }
 
-async function put (req, res){
+async function put(req, res){
     const {id} = req.params
 
     const product = await ProductsModel.findOneAndUpdate({_id: id}, req.body, {new: true})
@@ -63,8 +63,29 @@ async function put (req, res){
 
 }
 
+async function remove(req, res){
+    const {id} = req.params
+
+    const remove = await ProductsModel.deleteOne({ _id: id})
+
+    const message = remove.ok? 'Success!' : 'Error!'
+
+  /*   Uma maneira de verificar se o item foi deletado, dando como resposta sucesso ou erro
+
+    let message = 'Success!'
+
+    if (!remove.ok) {
+        message = 'Error!'
+    }
+ */
+    res.send({
+        message,
+    })
+}
+
 module.exports = {
     get,
     post,
     put,
+    remove,
 }
